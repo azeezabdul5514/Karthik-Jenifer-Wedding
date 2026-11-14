@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Wedding Invitation</title>
+<meta name="description" content="You are invited to our Holy Matrimony">
+<meta property="og:title" content="Wedding Invitation">
+<meta property="og:description" content="Tap to open our wedding invitation">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f9e6e0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23f6d3cf'/%3E%3Cpath d='M32 14v36M22 26h20' stroke='%23b9875a' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --cream: #fdf7f3;
+  --blush: #f9e6e0;
+  --pink: #efb6b5;
+  --rose: #d98d97;
+  --peach: #f3c4a6;
+  --sage: #9db497;
+  --gold: #b9875a;
+  --gold-soft: #d9b98c;
+  --ink: #5b3a42;
+  --ink-soft: #8a6a70;
+  --line: rgba(185,135,90,.28);
+  --card: rgba(255,255,255,.72);
+  --script: 'Pinyon Script', cursive;
+  --display: 'Playfair Display', Georgia, serif;
+  --serif: 'Lora', Georgia, serif;
+  --sans: 'Montserrat', system-ui, sans-serif;
+  --paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .4 0 0 0 0 .35 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper), var(--cream);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16.5px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+body.locked { overflow: hidden; height: 100svh; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+svg.art { overflow: visible; display: block; }
+
+.label {
+  font-family: var(--sans); font-weight: 500; font-size: 10.5px;
+  letter-spacing: .32em; text-transform: uppercase; color: var(--gold);
+}
+.wrap { max-width: 440px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+section { position: relative; }
+
+/* watercolour washes */
+.wash { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .55; pointer-events: none; z-index: 0; }
+.wash.pink  { background: var(--pink); }
+.wash.peach { background: var(--peach); }
+.wash.sage  { background: #cfdcc8; }
+
+.cross { width: 22px; height: 30px; margin: 0 auto; color: var(--gold); }
+
+/* ============ COVER (envelope) ============ */
+#cover {
+  position: fixed; inset: 0; z-index: 9999; overflow: hidden;
+  background: var(--paper), radial-gradient(110% 70% at 50% 40%, #fff8f4 0%, var(--blush) 75%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+  padding: 24px; text-align: center;
+  transition: opacity .9s ease, visibility 0s linear .9s;
+}
+#cover.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+#cover .corner { position: absolute; width: min(66vw, 320px); pointer-events: none; }
+.corner.tl { top: -18px; left: -22px; }
+.corner.tr { top: -18px; right: -22px; transform: scaleX(-1); }
+.corner.bl { bottom: -18px; left: -22px; transform: scaleY(-1); }
+.corner.br { bottom: -18px; right: -22px; transform: scale(-1,-1); }
+.cover-top { position: relative; z-index: 2; }
+.cover-top .script { font-family: var(--script); font-size: 34px; line-height: 1.1; color: var(--rose); margin-top: 6px; }
+
+.envelope {
+  --w: min(80vw, 330px);
+  position: relative; z-index: 2; width: var(--w); height: calc(var(--w) * .68);
+  perspective: 1200px; cursor: pointer; border: 0; background: none;
+  filter: drop-shadow(0 18px 28px rgba(150,90,90,.22));
+  animation: bob 3.4s ease-in-out infinite;
+}
+.envelope:focus-visible { outline: 2px solid var(--gold); outline-offset: 8px; border-radius: 6px; }
+@keyframes bob { 50% { transform: translateY(-6px); } }
+.env-back { position: absolute; inset: 0; background: #f0c9bf; border-radius: 6px; }
+.letter {
+  position: absolute; left: 7%; right: 7%; top: 6%; height: 88%;
+  background: var(--paper), #fffdfb; border-radius: 4px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 14px;
+  transition: transform 1s cubic-bezier(.3,.7,.2,1) .55s; z-index: 1;
+}
+.letter .label { font-size: 8.5px; }
+.letter .script { font-family: var(--script); font-size: 26px; color: var(--rose); line-height: 1.2; }
+.env-front {
+  position: absolute; inset: 0; z-index: 2; border-radius: 6px;
+  background: linear-gradient(160deg, #fbe5dd, #f6d4ca);
+  clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%);
+}
+.env-front::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top right, transparent 49.6%, rgba(185,135,90,.18) 50%, transparent 50.4%),
+              linear-gradient(to top left,  transparent 49.6%, rgba(185,135,90,.18) 50%, transparent 50.4%);
+}
+.env-flap {
+  position: absolute; left: 0; right: 0; top: 0; height: 60%; z-index: 3;
+  background: linear-gradient(180deg, #f7d9cf, #efc3b7);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transition: transform .7s cubic-bezier(.5,0,.3,1), z-index 0s linear .35s;
+}
+.env-seal {
+  position: absolute; left: 50%; top: 60%; z-index: 4; width: 64px; height: 64px;
+  transform: translate(-50%, -50%); border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6f2, #f2c9c4 70%);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.7), 0 0 0 4px var(--gold-soft), 0 6px 14px rgba(150,90,90,.25);
+  display: grid; place-items: center;
+  font-family: var(--script); font-size: 25px; color: var(--ink); line-height: 1;
+  transition: opacity .35s ease, transform .35s ease;
+}
+.envelope.opening { animation: none; }
+.envelope.opening .env-seal { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+.envelope.opening .env-flap { transform: rotateX(180deg); z-index: 0; }
+.envelope.opening .letter { transform: translateY(-58%); }
+.cover-hint { position: relative; z-index: 2; font-family: var(--sans); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); }
+.cover-hint i { margin-right: 6px; color: var(--rose); animation: tap 1.6s ease-in-out infinite; }
+@keyframes tap { 50% { transform: scale(1.2); } }
+
+/* ============ HERO ============ */
+#home { min-height: 100svh; display: flex; align-items: center; padding: 70px 0 60px; overflow: hidden; text-align: center; }
+#home .corner { position: absolute; width: min(58vw, 300px); pointer-events: none; z-index: 1; }
+.wreath { width: min(76vw, 300px); margin: 0 auto 12px; position: relative; }
+.wreath .mono {
+  position: absolute; inset: 0; display: grid; place-items: center; align-content: center;
+  font-family: var(--script); color: var(--ink); font-size: clamp(46px, 14vw, 62px); line-height: 1;
+}
+.wreath .mono small { display: block; font-size: .45em; color: var(--rose); margin: 2px 0; }
+.hero-kicker { margin-bottom: 8px; }
+.hero-names { font-family: var(--script); font-weight: 400; color: var(--ink); font-size: clamp(52px, 15vw, 70px); line-height: 1.05; }
+.hero-names .amp { display: block; font-size: .5em; color: var(--rose); margin: 2px 0; }
+.hero-sub { font-family: var(--display); font-style: italic; color: var(--ink-soft); font-size: 17px; margin-top: 8px; }
+.hero-date {
+  display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 22px;
+  font-family: var(--sans); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft);
+}
+.hero-date span { padding: 8px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); min-width: 82px; }
+.hero-date b { font-family: var(--display); font-weight: 400; font-size: 44px; letter-spacing: 0; color: var(--rose); line-height: 1; }
+.scroll-hint { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 34px; text-decoration: none; font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+.scroll-hint i { animation: down 1.8s ease-in-out infinite; color: var(--rose); }
+@keyframes down { 50% { transform: translateY(5px); } }
+
+/* ============ HEADINGS ============ */
+.heading { text-align: center; margin-bottom: 30px; }
+.heading h2 { font-family: var(--script); font-weight: 400; font-size: 46px; line-height: 1.15; color: var(--ink); margin-top: 4px; }
+.sprig { width: 150px; height: 26px; margin: 6px auto 0; }
+
+/* ============ VERSE ============ */
+#verse { padding: 70px 0 30px; text-align: center; }
+.verse-text { font-family: var(--display); font-style: italic; font-size: 21px; line-height: 1.55; color: var(--ink); margin: 18px 0 12px; }
+.verse-ref { font-family: var(--sans); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+
+/* ============ INVITATION ============ */
+#invite { padding: 40px 0 60px; }
+.card {
+  position: relative; background: var(--paper), var(--card);
+  border-radius: 24px; padding: 52px 26px 40px; text-align: center;
+  box-shadow: 0 20px 40px -24px rgba(150,90,90,.35);
+  border: 1px solid rgba(255,255,255,.9);
+}
+.card::before { content: ''; position: absolute; inset: 9px; border: 1px solid var(--line); border-radius: 17px; pointer-events: none; }
+.card .bloom-top { position: absolute; top: -52px; left: 50%; width: 210px; transform: translateX(-50%); }
+.invite-lead { font-style: italic; color: var(--ink-soft); margin: 8px 0 22px; }
+.person-name { font-family: var(--script); font-size: 40px; line-height: 1.15; color: var(--ink); }
+.person-parents { font-size: 14.5px; color: var(--ink-soft); margin-top: 4px; }
+.person-parents span { display: block; font-family: var(--sans); font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+.person-parents b { font-weight: 500; color: var(--ink); }
+.with { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 18px 0; font-family: var(--script); font-size: 30px; color: var(--rose); }
+.with::before, .with::after { content: ''; width: 46px; height: 1px; background: var(--line); }
+.invite-close { margin-top: 24px; font-style: italic; color: var(--ink-soft); }
+
+/* ============ EVENTS ============ */
+#events { padding: 50px 0 40px; }
+.event {
+  position: relative; background: var(--paper), var(--card); margin-bottom: 30px;
+  border-radius: 200px 200px 24px 24px; padding: 64px 22px 24px; text-align: center;
+  box-shadow: 0 20px 40px -26px rgba(150,90,90,.4); border: 1px solid rgba(255,255,255,.9);
+}
+.event::before { content: ''; position: absolute; inset: 9px; border: 1px solid var(--line); border-radius: 192px 192px 17px 17px; pointer-events: none; }
+.event-icon {
+  width: 58px; height: 58px; margin: 0 auto 10px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #fff, #f8dcd6); color: var(--rose); font-size: 22px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+.event-name { font-family: var(--script); font-size: 42px; line-height: 1.1; color: var(--ink); }
+.event-date { margin-top: 4px; }
+.event-rows { margin: 20px 0 16px; display: grid; gap: 12px; text-align: left; }
+.row { display: flex; gap: 12px; align-items: flex-start; }
+.row i { color: var(--rose); width: 18px; text-align: center; margin-top: 5px; }
+.row-main { font-weight: 500; color: var(--ink); }
+.row-sub { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+.event-map { width: 100%; height: 170px; border: 0; border-radius: 16px; display: block; filter: saturate(.75) sepia(.12); }
+.event-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 14px; border-radius: 999px; cursor: pointer; text-decoration: none;
+  font-family: var(--sans); font-size: 11.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  background: rgba(255,255,255,.8); border: 1px solid var(--pink); color: var(--ink);
+  transition: transform .2s ease, background .2s ease;
+}
+.btn:active { transform: scale(.97); }
+.btn.solid { background: linear-gradient(135deg, #e7a2a8, #dd8e98); border-color: transparent; color: #fff; box-shadow: 0 8px 18px -8px rgba(217,141,151,.8); }
+
+/* ============ COUNTDOWN ============ */
+#countdown-section { padding: 40px 0 60px; }
+.countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.cd-tile {
+  aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #fff, #fbe3dd); border: 1px solid rgba(239,182,181,.7);
+  box-shadow: 0 10px 20px -12px rgba(150,90,90,.4);
+}
+.cd-num { font-family: var(--display); font-size: clamp(22px, 7vw, 30px); line-height: 1; color: var(--ink); }
+.cd-word { font-family: var(--sans); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); margin-top: 4px; }
+.cd-done { text-align: center; font-family: var(--script); font-size: 46px; color: var(--rose); }
+
+/* ============ RSVP ============ */
+#rsvp { padding: 10px 0 60px; text-align: center; }
+#rsvp p { font-style: italic; color: var(--ink-soft); margin-bottom: 16px; }
+
+/* ============ CLOSING ============ */
+#closing { padding: 70px 0 40px; text-align: center; overflow: hidden; }
+#closing .corner { position: absolute; width: min(46vw, 240px); pointer-events: none; z-index: 0; }
+.closing-verse { font-family: var(--display); font-style: italic; font-size: 19px; line-height: 1.6; color: var(--ink); }
+.closing-ref { margin-top: 8px; }
+.closing-names { font-family: var(--script); font-size: 52px; color: var(--rose); line-height: 1.2; margin: 26px 0 4px; }
+.closing-from { margin-bottom: 26px; }
+footer { margin-top: 40px; font-family: var(--sans); font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); opacity: .8; }
+
+/* ============ PETALS ============ */
+#petals { position: fixed; inset: 0; pointer-events: none; z-index: 10000; overflow: hidden; }
+.petal {
+  position: absolute; top: -30px; width: 14px; height: 11px; border-radius: 100% 0 100% 0; opacity: .8;
+  background: linear-gradient(135deg, #fbd9d6, #eba8ad);
+  animation: fall linear infinite;
+}
+.petal.peach { background: linear-gradient(135deg, #ffe6d6, #f0b896); }
+@keyframes fall {
+  0%   { transform: translate3d(0, -5vh, 0) rotate(0deg); }
+  50%  { transform: translate3d(40px, 50vh, 0) rotate(200deg); }
+  100% { transform: translate3d(-20px, 108vh, 0) rotate(400deg); }
+}
+
+/* ============ REVEAL ============ */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- Art: watercolour flowers are generated into this sprite by the script below -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs id="art-defs">
+    <filter id="wc" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="0.45"/>
+    </filter>
+    <radialGradient id="g-pink" cx="50%" cy="90%" r="90%"><stop offset="0" stop-color="#fdeeea"/><stop offset=".55" stop-color="#f4c3c2"/><stop offset="1" stop-color="#e59da3"/></radialGradient>
+    <radialGradient id="g-pink-in" cx="50%" cy="90%" r="90%"><stop offset="0" stop-color="#f7cfcf"/><stop offset="1" stop-color="#d9848f"/></radialGradient>
+    <radialGradient id="g-peach" cx="50%" cy="90%" r="90%"><stop offset="0" stop-color="#fff4ea"/><stop offset=".55" stop-color="#f8d3b8"/><stop offset="1" stop-color="#eeac88"/></radialGradient>
+    <radialGradient id="g-peach-in" cx="50%" cy="90%" r="90%"><stop offset="0" stop-color="#fbdcc6"/><stop offset="1" stop-color="#e3976f"/></radialGradient>
+    <radialGradient id="g-ivory" cx="50%" cy="90%" r="90%"><stop offset="0" stop-color="#fffdf9"/><stop offset=".6" stop-color="#fbeee4"/><stop offset="1" stop-color="#efd2c4"/></radialGradient>
+    <radialGradient id="g-ivory-in" cx="50%" cy="90%" r="90%"><stop offset="0" stop-color="#fbeadf"/><stop offset="1" stop-color="#e6b9a6"/></radialGradient>
+    <linearGradient id="g-leaf" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#86a283"/><stop offset="1" stop-color="#c9d7bf"/></linearGradient>
+    <linearGradient id="g-leaf2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#a3b8a0"/><stop offset="1" stop-color="#dbe5d3"/></linearGradient>
+    <symbol id="cross-s" viewBox="0 0 22 30"><path d="M11 1.5v27M3 9.5h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="11" cy="9.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1"/></symbol>
+  </defs>
+</svg>
+
+<div id="petals" aria-hidden="true"></div>
+
+<!-- ============ COVER ============ -->
+<div id="cover">
+  <svg class="art corner tl" viewBox="0 0 300 300" aria-hidden="true"><use href="#corner"/></svg>
+  <svg class="art corner br" viewBox="0 0 300 300" aria-hidden="true"><use href="#corner"/></svg>
+  <div class="cover-top">
+    <svg class="cross" aria-hidden="true"><use href="#cross-s"/></svg>
+    <p class="label" style="margin-top:10px">Two hearts · One faith</p>
+    <p class="script">You are invited</p>
+  </div>
+  <button class="envelope" id="envelope" type="button" aria-label="Open the invitation">
+    <div class="env-back"></div>
+    <div class="letter">
+      <p class="label">Holy Matrimony</p>
+      <p class="script" data-bind="couple"></p>
+    </div>
+    <div class="env-front"></div>
+    <div class="env-flap"></div>
+    <div class="env-seal" data-bind="initials"></div>
+  </button>
+  <p class="cover-hint"><i class="fa-solid fa-hand-pointer"></i>Tap to open</p>
+</div>
+
+<!-- ============ HERO ============ -->
+<section id="home">
+  <div class="wash pink"  style="width:260px;height:260px;top:4%;left:-90px"></div>
+  <div class="wash peach" style="width:240px;height:240px;bottom:6%;right:-80px"></div>
+  <svg class="art corner tl" viewBox="0 0 300 300" aria-hidden="true"><use href="#corner"/></svg>
+  <svg class="art corner tr" viewBox="0 0 300 300" aria-hidden="true"><use href="#corner"/></svg>
+  <div class="wrap">
+    <div class="wreath reveal">
+      <svg class="art" id="wreath" viewBox="-150 -150 300 300" aria-hidden="true"></svg>
+      <div class="mono"><span data-bind="groom.initial"></span><small>&amp;</small><span data-bind="bride.initial"></span></div>
+    </div>
+    <p class="label hero-kicker reveal" data-bind="heroKicker"></p>
+    <h1 class="hero-names reveal">
+      <span data-bind="groom.short"></span>
+      <span class="amp">&amp;</span>
+      <span data-bind="bride.short"></span>
+    </h1>
+    <p class="hero-sub reveal" data-bind="heroSub"></p>
+    <div class="hero-date reveal"><span data-bind="weekday"></span><b data-bind="day"></b><span data-bind="monthYear"></span></div>
+    <a class="scroll-hint reveal" href="#verse"><span>Scroll</span><i class="fa-solid fa-chevron-down"></i></a>
+  </div>
+</section>
+
+<main>
+
+  <!-- ============ VERSE ============ -->
+  <section id="verse">
+    <div class="wrap reveal">
+      <svg class="cross" aria-hidden="true"><use href="#cross-s"/></svg>
+      <p class="verse-text" data-bind="verse.text"></p>
+      <p class="verse-ref" data-bind="verse.ref"></p>
+    </div>
+  </section>
+
+  <!-- ============ INVITATION ============ -->
+  <section id="invite">
+    <div class="wash sage" style="width:220px;height:220px;top:20%;right:-100px"></div>
+    <div class="wrap">
+      <div class="card reveal">
+        <svg class="art bloom-top" viewBox="-130 -60 260 100" aria-hidden="true"><use href="#spray"/></svg>
+        <p class="label" data-bind="blessing"></p>
+        <p class="invite-lead" data-bind="inviteLead"></p>
+        <div class="person">
+          <div class="person-name" data-bind="groom.full"></div>
+          <div class="person-parents"><span data-bind="groom.relation"></span><b data-bind="groom.parents"></b></div>
+        </div>
+        <div class="with">with</div>
+        <div class="person">
+          <div class="person-name" data-bind="bride.full"></div>
+          <div class="person-parents"><span data-bind="bride.relation"></span><b data-bind="bride.parents"></b></div>
+        </div>
+        <p class="invite-close" data-bind="inviteClose"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EVENTS ============ -->
+  <section id="events">
+    <div class="wash pink" style="width:240px;height:240px;top:30%;left:-120px"></div>
+    <div class="wrap">
+      <div class="heading reveal">
+        <p class="label">Join us for</p>
+        <h2>The Celebration</h2>
+      </div>
+      <div id="event-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ COUNTDOWN ============ -->
+  <section id="countdown-section">
+    <div class="wrap">
+      <div class="heading reveal">
+        <p class="label">Counting the days</p>
+        <h2>Until We Say I Do</h2>
+      </div>
+      <div class="countdown-grid reveal" id="countdown">
+        <div class="cd-tile"><span class="cd-num" id="cd-days">--</span><span class="cd-word">Days</span></div>
+        <div class="cd-tile"><span class="cd-num" id="cd-hours">--</span><span class="cd-word">Hours</span></div>
+        <div class="cd-tile"><span class="cd-num" id="cd-mins">--</span><span class="cd-word">Mins</span></div>
+        <div class="cd-tile"><span class="cd-num" id="cd-secs">--</span><span class="cd-word">Secs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section id="rsvp">
+    <div class="wrap reveal">
+      <p data-bind="rsvp.text"></p>
+      <a class="btn solid" id="rsvp-btn" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Send RSVP</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ CLOSING ============ -->
+<section id="closing">
+  <svg class="art corner bl" viewBox="0 0 300 300" aria-hidden="true"><use href="#corner"/></svg>
+  <svg class="art corner br" viewBox="0 0 300 300" aria-hidden="true"><use href="#corner"/></svg>
+  <div class="wrap">
+    <p class="closing-verse reveal" data-bind="closingVerse.text"></p>
+    <p class="label closing-ref reveal" data-bind="closingVerse.ref"></p>
+    <div class="closing-names reveal" data-bind="couple"></div>
+    <p class="label closing-from reveal" data-bind="closingFrom"></p>
+    <a class="btn solid reveal" id="share-btn" target="_blank" rel="noopener"><i class="fa-solid fa-share-nodes"></i> Share Invitation</a>
+    <footer data-bind="footer"></footer>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   EDIT ONLY THIS SECTION — all names, dates, venues live here.
+   • Dates use India time (+05:30).
+   • Leave rsvp.phone empty ('') to hide the RSVP button.
+   ============================================================ */
+const CONFIG = {
+  groom: {
+    short: 'Joshua',
+    full: 'Joshua Samuel',
+    relation: 'Son of',
+    parents: 'Mr. & Mrs. David Samuel',
+  },
+  bride: {
+    short: 'Sarah',
+    full: 'Sarah Grace',
+    relation: 'Daughter of',
+    parents: 'Mr. & Mrs. John Paul',
+  },
+  heroKicker: 'Together with their families',
+  heroSub: 'are getting married',
+  verse: {
+    text: '“Therefore what God has joined together, let no one separate.”',
+    ref: 'Mark 10 : 9',
+  },
+  blessing: 'By the grace of God',
+  inviteLead: 'we request the honour of your presence at the Holy Matrimony of',
+  inviteClose: 'Your prayers and presence will make our day truly blessed.',
+
+  events: [
+    {
+      name: 'Holy Matrimony',
+      icon: 'fa-church',
+      start: '2027-01-23T10:30:00+05:30',
+      end:   '2027-01-23T12:30:00+05:30',
+      timeText: '10:30 AM',
+      venue: "St. Mary's Church",
+      address: 'Church Road, Chennai – 600 001',
+      mapQuery: "St. Mary's Church, Chennai",
+      mapLink: "https://maps.google.com/?q=St.+Mary's+Church+Chennai",
+    },
+    {
+      name: 'Reception',
+      icon: 'fa-champagne-glasses',
+      start: '2027-01-23T18:30:00+05:30',
+      end:   '2027-01-23T22:00:00+05:30',
+      timeText: 'From 6:30 PM onwards',
+      venue: 'Grand Rose Hall',
+      address: 'Anna Salai, Chennai – 600 002',
+      mapQuery: 'Anna Salai, Chennai',
+      mapLink: 'https://maps.google.com/?q=Anna+Salai+Chennai',
+    },
+  ],
+  countdownTo: '2027-01-23T10:30:00+05:30',
+
+  rsvp: {
+    text: 'Kindly let us know if you can join us.',
+    phone: '919999999999', // WhatsApp number with country code, digits only
+  },
+
+  closingVerse: {
+    text: '“The Lord bless you and keep you; the Lord make His face shine on you and be gracious to you.”',
+    ref: 'Numbers 6 : 24–25',
+  },
+  closingFrom: 'With love from both families',
+};
+/* ============================ END OF EDIT SECTION ============================ */
+
+const TZ = 'Asia/Kolkata';
+const fmt = (iso, opts) => new Intl.DateTimeFormat('en-IN', { timeZone: TZ, ...opts }).format(new Date(iso));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const firstEvent = CONFIG.events[0];
+const couple = `${CONFIG.groom.short} & ${CONFIG.bride.short}`;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+CONFIG.groom.initial = CONFIG.groom.short[0];
+CONFIG.bride.initial = CONFIG.bride.short[0];
+
+/* ── Watercolour flower sprite ── */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const petal = 'M0 0 C -17 -6 -21 -30 0 -36 C 21 -30 17 -6 0 0Z';
+const rot = (n, off, fn) => Array.from({ length: n }, (_, i) => fn(off + i * 360 / n)).join('');
+const rose = (id, outer, inner) => `
+  <symbol id="${id}" viewBox="-50 -50 100 100" overflow="visible"><g filter="url(#wc)">
+    ${rot(5, 0, a => `<path d="${petal}" fill="url(#${outer})" opacity=".85" transform="rotate(${a})"/>`)}
+    ${rot(5, 36, a => `<path d="${petal}" fill="url(#${outer})" opacity=".8" transform="rotate(${a}) scale(.72)"/>`)}
+    ${rot(4, 15, a => `<path d="${petal}" fill="url(#${inner})" opacity=".75" transform="rotate(${a}) scale(.45)"/>`)}
+    <circle r="7" fill="url(#${inner})"/>
+    <path d="M-4 1 C -4 -5 5 -5 4 1 C 3 5 -2 5 -1 1" fill="none" stroke="#b9707c" stroke-width="1.1" opacity=".6"/>
+  </g></symbol>`;
+const art = `
+  ${rose('rose-pink', 'g-pink', 'g-pink-in')}
+  ${rose('rose-peach', 'g-peach', 'g-peach-in')}
+  ${rose('rose-ivory', 'g-ivory', 'g-ivory-in')}
+  <symbol id="leaf" viewBox="-10 -40 20 40" overflow="visible"><g filter="url(#wc)">
+    <path d="M0 0 C 9 -10 9 -27 0 -38 C -9 -27 -9 -10 0 0Z" fill="url(#g-leaf)" opacity=".9"/>
+    <path d="M0 -2 L0 -34" stroke="#7d977a" stroke-width=".8" opacity=".5"/></g></symbol>
+  <symbol id="leaf2" viewBox="-10 -40 20 40" overflow="visible"><g filter="url(#wc)">
+    <path d="M0 0 C 8 -10 8 -24 0 -34 C -8 -24 -8 -10 0 0Z" fill="url(#g-leaf2)" opacity=".85"/></g></symbol>
+  <symbol id="blossom" viewBox="-12 -12 24 24" overflow="visible"><g filter="url(#wc)">
+    ${rot(5, 0, a => `<circle cx="0" cy="-5.5" r="5" fill="#f9dcd6" opacity=".9" transform="rotate(${a})"/>`)}
+    <circle r="2.6" fill="#e8b078"/></g></symbol>
+  <symbol id="bud" viewBox="-8 -24 16 28" overflow="visible"><g filter="url(#wc)">
+    <path d="M0 -22 C 8 -14 7 -4 0 0 C -7 -4 -8 -14 0 -22Z" fill="url(#g-pink-in)" opacity=".85"/>
+    <path d="M0 2 C -6 -1 -7 -6 -5 -9 M0 2 C 6 -1 7 -6 5 -9" fill="none" stroke="#8ea787" stroke-width="1.6"/></g></symbol>
+  <symbol id="euca" viewBox="0 0 120 120" overflow="visible"><g filter="url(#wc)">
+    <path d="M0 120 C 30 90 60 50 110 10" fill="none" stroke="#9fb39a" stroke-width="1.4"/>
+    ${[[18,100],[34,84],[48,68],[62,54],[76,40],[92,26],[106,14]].map(([x,y],i) =>
+      `<ellipse cx="${x + (i % 2 ? 7 : -7)}" cy="${y + (i % 2 ? 4 : -4)}" rx="7" ry="5.5" fill="#bfcfb8" opacity=".85"/>`).join('')}
+  </g></symbol>
+  <symbol id="corner" viewBox="0 0 300 300" overflow="visible">
+    <use href="#euca" x="-10" y="40" width="190" height="190" transform="rotate(-20 80 130)"/>
+    <use href="#euca" x="40" y="-30" width="170" height="170" transform="rotate(40 120 50)"/>
+    <use href="#leaf" x="118" y="16" width="26" height="52" transform="rotate(70 131 60)"/>
+    <use href="#leaf" x="160" y="22" width="22" height="44" transform="rotate(95 171 60)"/>
+    <use href="#leaf" x="14" y="130" width="26" height="52" transform="rotate(-160 27 170)"/>
+    <use href="#leaf" x="40" y="150" width="22" height="44" transform="rotate(-190 51 190)"/>
+    <use href="#leaf2" x="94" y="96" width="24" height="48" transform="rotate(140 106 130)"/>
+    <use href="#leaf2" x="0" y="60" width="22" height="44" transform="rotate(-60 11 100)"/>
+    <use href="#rose-peach" x="108" y="-6" width="80" height="80"/>
+    <use href="#rose-pink" x="20" y="10" width="110" height="110"/>
+    <use href="#rose-ivory" x="-14" y="92" width="72" height="72"/>
+    <use href="#rose-pink" x="70" y="88" width="52" height="52"/>
+    <use href="#bud" x="196" y="12" width="22" height="38" transform="rotate(70 207 30)"/>
+    <use href="#bud" x="12" y="190" width="20" height="34" transform="rotate(-170 22 205)"/>
+    <use href="#blossom" x="168" y="56" width="22" height="22"/>
+    <use href="#blossom" x="120" y="74" width="18" height="18"/>
+    <use href="#blossom" x="54" y="150" width="20" height="20"/>
+    <use href="#blossom" x="-4" y="64" width="16" height="16"/>
+  </symbol>
+  <symbol id="spray" viewBox="-130 -60 260 100" overflow="visible">
+    <use href="#leaf" x="-80" y="-26" width="22" height="44" transform="rotate(-70 -69 -4)"/>
+    <use href="#leaf" x="58" y="-26" width="22" height="44" transform="rotate(70 69 -4)"/>
+    <use href="#leaf2" x="-102" y="-16" width="18" height="36" transform="rotate(-85 -93 2)"/>
+    <use href="#leaf2" x="84" y="-16" width="18" height="36" transform="rotate(85 93 2)"/>
+    <use href="#rose-peach" x="-62" y="-30" width="48" height="48"/>
+    <use href="#rose-ivory" x="14" y="-30" width="48" height="48"/>
+    <use href="#rose-pink" x="-34" y="-46" width="68" height="68"/>
+    <use href="#blossom" x="-96" y="-8" width="16" height="16"/>
+    <use href="#blossom" x="80" y="-8" width="16" height="16"/>
+  </symbol>
+  <symbol id="sprig" viewBox="0 0 150 26" overflow="visible">
+    <path d="M10 13 H140" stroke="#d9b98c" stroke-width=".8"/>
+    <use href="#leaf2" x="44" y="1" width="9" height="18" transform="rotate(-70 48 13)"/>
+    <use href="#leaf2" x="97" y="1" width="9" height="18" transform="rotate(70 102 13)"/>
+    <use href="#rose-pink" x="62" y="0" width="26" height="26"/>
+  </symbol>`;
+document.getElementById('art-defs').insertAdjacentHTML('beforeend', art);
+
+/* Wreath: ring of leaves with two rose clusters (top-left, bottom-right) */
+(() => {
+  const R = 112, parts = [];
+  parts.push(`<circle r="92" fill="none" stroke="#d9b98c" stroke-width=".8"/>`);
+  for (let i = 0; i < 30; i++) {
+    const a = i * 12, out = i % 2 ? 1 : -1;
+    parts.push(`<use href="#${i % 3 ? 'leaf' : 'leaf2'}" x="-9" y="-36" width="18" height="36"
+      transform="rotate(${a}) translate(0 ${-R}) rotate(${70 * out})"/>`);
+  }
+  [20, 100, 160, 250, 330].forEach(a => parts.push(`<use href="#blossom" x="-9" y="-9" width="18" height="18" transform="rotate(${a}) translate(0 ${-R})"/>`));
+  const cluster = (a, big, small) => {
+    parts.push(`<use href="#${small}" x="-22" y="-22" width="44" height="44" transform="rotate(${a + 22}) translate(0 ${-R}) rotate(${-a - 22})"/>`);
+    parts.push(`<use href="#rose-ivory" x="-18" y="-18" width="36" height="36" transform="rotate(${a - 20}) translate(0 ${-R}) rotate(${-a + 20})"/>`);
+    parts.push(`<use href="#${big}" x="-32" y="-32" width="64" height="64" transform="rotate(${a}) translate(0 ${-R}) rotate(${-a})"/>`);
+  };
+  cluster(-45, 'rose-pink', 'rose-peach');
+  cluster(135, 'rose-pink', 'rose-peach');
+  document.getElementById('wreath').innerHTML = parts.join('');
+})();
+
+/* ── Text bindings ── */
+const derived = {
+  couple,
+  initials: `${CONFIG.groom.initial}${CONFIG.bride.initial}`,
+  weekday: fmt(firstEvent.start, { weekday: 'long' }),
+  day: fmt(firstEvent.start, { day: '2-digit' }),
+  monthYear: fmt(firstEvent.start, { month: 'short', year: 'numeric' }),
+  footer: `© ${fmt(firstEvent.start, { year: 'numeric' })} · ${couple}`,
+};
+const lookup = path => path in derived ? derived[path] : path.split('.').reduce((o, k) => (o == null ? o : o[k]), CONFIG);
+document.querySelectorAll('[data-bind]').forEach(el => {
+  const v = lookup(el.dataset.bind);
+  if (v == null || v === '') el.hidden = true; else el.textContent = v;
+});
+document.title = `${couple} — Wedding Invitation`;
+
+/* ── Events ── */
+document.getElementById('event-list').innerHTML = CONFIG.events.map((ev, i) => `
+  <article class="event reveal">
+    <div class="event-icon"><i class="fa-solid ${esc(ev.icon || 'fa-heart')}"></i></div>
+    <div class="event-name">${esc(ev.name)}</div>
+    <div class="label event-date">${fmt(ev.start, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+    <div class="event-rows">
+      <div class="row"><i class="fa-regular fa-clock"></i><div class="row-main">${esc(ev.timeText)}</div></div>
+      <div class="row"><i class="fa-solid fa-location-dot"></i><div><div class="row-main">${esc(ev.venue)}</div><div class="row-sub">${esc(ev.address)}</div></div></div>
+    </div>
+    <iframe class="event-map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(ev.venue)}"
+      src="https://maps.google.com/maps?q=${encodeURIComponent(ev.mapQuery)}&z=15&output=embed"></iframe>
+    <div class="event-actions">
+      <a class="btn solid" href="${esc(ev.mapLink)}" target="_blank" rel="noopener"><i class="fa-solid fa-diamond-turn-right"></i> Directions</a>
+      <button class="btn" type="button" onclick="addToCalendar(${i})"><i class="fa-regular fa-calendar-plus"></i> Save Date</button>
+    </div>
+  </article>`).join('');
+
+/* ── Floral sprig under each heading ── */
+document.querySelectorAll('.heading h2').forEach(h =>
+  h.insertAdjacentHTML('afterend', '<svg class="art sprig" viewBox="0 0 150 26" aria-hidden="true"><use href="#sprig"/></svg>'));
+
+/* ── Falling petals ── */
+if (!reduced) {
+  const host = document.getElementById('petals');
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement('span');
+    const s = .6 + Math.random() * .8;
+    p.className = 'petal' + (i % 3 ? '' : ' peach');
+    p.style.cssText = `left:${Math.random() * 100}%;width:${14 * s}px;height:${11 * s}px;animation-duration:${9 + Math.random() * 8}s;animation-delay:${-Math.random() * 16}s;`;
+    host.appendChild(p);
+  }
+}
+
+/* ── Cover ── */
+const envelope = document.getElementById('envelope');
+envelope.addEventListener('click', () => {
+  if (envelope.classList.contains('opening')) return;
+  envelope.classList.add('opening');
+  setTimeout(() => {
+    document.getElementById('cover').classList.add('gone');
+    document.body.classList.remove('locked');
+    document.querySelectorAll('#home .reveal').forEach((el, i) => setTimeout(() => el.classList.add('visible'), 200 + i * 180));
+  }, reduced ? 0 : 1900);
+});
+
+/* ── Scroll reveal ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => { if (!el.closest('#home')) io.observe(el); });
+
+/* ── Countdown ── */
+const target = new Date(CONFIG.countdownTo);
+function setNum(id, val) { document.getElementById(id).textContent = String(val).padStart(2, '0'); }
+function tick() {
+  const diff = target - new Date();
+  if (diff <= 0) {
+    document.getElementById('countdown').outerHTML = '<p class="cd-done">Just Married!</p>';
+    clearInterval(timer);
+    return;
+  }
+  setNum('cd-days', Math.floor(diff / 86400000));
+  setNum('cd-hours', Math.floor(diff % 86400000 / 3600000));
+  setNum('cd-mins', Math.floor(diff % 3600000 / 60000));
+  setNum('cd-secs', Math.floor(diff % 60000 / 1000));
+}
+const timer = setInterval(tick, 1000);
+tick();
+
+/* ── Add to calendar (.ics) ── */
+const icsDate = iso => new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+const icsText = s => String(s).replace(/[\\,;]/g, m => '\\' + m);
+function addToCalendar(i) {
+  const ev = CONFIG.events[i];
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Wedding Invite//EN',
+    'BEGIN:VEVENT',
+    `UID:${icsDate(ev.start)}-${i}@wedding-invite`,
+    `DTSTAMP:${icsDate(new Date().toISOString())}`,
+    `DTSTART:${icsDate(ev.start)}`,
+    `DTEND:${icsDate(ev.end)}`,
+    `SUMMARY:${icsText(`${ev.name} — ${couple}`)}`,
+    `LOCATION:${icsText(`${ev.venue}, ${ev.address}`)}`,
+    `URL:${ev.mapLink}`,
+    'END:VEVENT', 'END:VCALENDAR',
+  ].join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+  a.download = `${ev.name.replace(/\s+/g, '-')}.ics`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ── RSVP ── */
+const rsvpBtn = document.getElementById('rsvp-btn');
+if (CONFIG.rsvp.phone) {
+  rsvpBtn.href = `https://wa.me/${CONFIG.rsvp.phone}?text=` + encodeURIComponent(`Hi! I'd love to attend the wedding of ${couple}. 🌸`);
+} else {
+  document.getElementById('rsvp').hidden = true;
+}
+
+/* ── Share ── */
+const shareBtn = document.getElementById('share-btn');
+const shareText = `You're invited to the wedding of ${couple}! 🌸`;
+shareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(`${shareText}\n${location.href}`);
+shareBtn.addEventListener('click', e => {
+  if (navigator.share) { e.preventDefault(); navigator.share({ title: document.title, text: shareText, url: location.href }).catch(() => {}); }
+});
+</script>
+</body>
+</html>
