@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
 <title>Karthik & Jenifer — Wedding Invitation</title>
 <meta name="description" content="You are invited to the Holy Matrimony of Karthik & Jenifer">
 <meta property="og:title" content="Karthik & Jenifer — Wedding Invitation">
@@ -591,6 +591,9 @@ if (!reduced) {
 }
 
 /* ── Cover ── */
+// Always start at the top-left so the door screen is centred on first open
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
 const church = document.getElementById('church');
 church.addEventListener('click', () => {
   if (church.classList.contains('open')) return;
