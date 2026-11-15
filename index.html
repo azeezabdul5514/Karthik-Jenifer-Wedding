@@ -41,7 +41,9 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+html, body { max-width: 100%; }
+main { overflow: hidden; }
 body {
   background: var(--paper), var(--cream);
   color: var(--ink);
@@ -61,7 +63,7 @@ svg.art { overflow: visible; display: block; }
   letter-spacing: .32em; text-transform: uppercase; color: var(--gold);
 }
 .wrap { max-width: 440px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
-section { position: relative; }
+section { position: relative; overflow-x: clip; }
 
 /* watercolour washes */
 .wash { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .55; pointer-events: none; z-index: 0; }
@@ -75,7 +77,8 @@ section { position: relative; }
 #cover {
   position: fixed; inset: 0; z-index: 9999; overflow: hidden;
   background: var(--paper), radial-gradient(110% 70% at 50% 45%, #fffaf6 0%, var(--blush) 80%);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(16px, 4.5vh, 40px);
+  height: 100vh; height: 100dvh;
   padding: 24px; text-align: center;
   transition: opacity .9s ease, visibility 0s linear .9s;
 }
@@ -100,7 +103,8 @@ section { position: relative; }
 .cover-top .script { font-family: var(--script); font-size: 36px; line-height: 1.1; color: var(--rose); margin-top: 4px; }
 
 .church {
-  --w: min(66vw, 280px);
+  --w: min(66vw, 280px, 40vh);
+  flex-shrink: 0;
   position: relative; z-index: 2; width: var(--w); height: calc(var(--w) * 1.32);
   border: 0; background: none; padding: 0; cursor: pointer;
 }
